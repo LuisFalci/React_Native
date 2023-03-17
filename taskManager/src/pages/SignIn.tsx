@@ -7,7 +7,18 @@ import {
   TouchableOpacity,
 } from "react-native";
 
+import { useState } from "react";
+
 export default function SingIn() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  function handleLogin() {
+    if (email === "" || password === "") {
+      return;
+    }
+  }
+
   return (
     <View style={styles.container}>
       <Image style={styles.logo} source={require("../assets/Logo.png")} />
@@ -16,14 +27,18 @@ export default function SingIn() {
           placeholder="Digite seu email"
           style={styles.input}
           placeholderTextColor="#F0F0F0"
+          value={email}
+          onChangeText={setEmail}
         />
         <TextInput
           placeholder="Digite sua senha"
           style={styles.input}
           placeholderTextColor="#F0F0F0"
           secureTextEntry={true}
+          value={password}
+          onChangeText={setPassword}
         />
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity style={styles.button} onPress={handleLogin}>
           <Text style={styles.buttonText}>Acessar</Text>
         </TouchableOpacity>
       </View>
@@ -57,7 +72,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8,
     color: "#FFF",
   },
-  button:{
+  button: {
     width: "95%",
     height: 40,
     backgroundColor: "#3fffa3",
@@ -65,9 +80,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  buttonText:{
-    fontSize:18,
-    fontWeight:"bold",
-    color:"#101026"
-  }
+  buttonText: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#101026",
+  },
 });
