@@ -5,13 +5,14 @@ import {
   Image,
   TextInput,
   TouchableOpacity,
+  ActivityIndicator,
 } from "react-native";
 
 import { useContext, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 
 export default function SingIn() {
-  const {singIn} = useContext(AuthContext);
+  const { singIn, loadingAuth } = useContext(AuthContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -19,7 +20,7 @@ export default function SingIn() {
     if (email === "" || password === "") {
       return;
     }
-    await singIn({email, password})
+    await singIn({ email, password });
   }
 
   return (
@@ -42,7 +43,12 @@ export default function SingIn() {
           onChangeText={setPassword}
         />
         <TouchableOpacity style={styles.button} onPress={handleLogin}>
-          <Text style={styles.buttonText}>Acessar</Text>
+          {/* em quanto houver load um botão de carregamento é exibido  */}
+          {loadingAuth ? (
+            <ActivityIndicator size={25} color="#FFF" />
+          ) : (
+            <Text style={styles.buttonText}>Acessar</Text>
+          )}
         </TouchableOpacity>
       </View>
     </View>

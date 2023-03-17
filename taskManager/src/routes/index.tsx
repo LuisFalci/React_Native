@@ -2,10 +2,14 @@ import { ActivityIndicator, View } from "react-native";
 import AppRoutes from "./app.routes";
 import AuthRoutes from "./auth.routes";
 
-function Routes() {
-  const isAuthenticated = false;
-  const loading = false;
+import {AuthContext} from "../context/AuthContext"
+import { useContext } from "react";
 
+function Routes() {
+  // importa a prop isAuthenticated de AuthContext
+  const {isAuthenticated, loading} = useContext(AuthContext)
+
+  
   // se loading for true gera uma animação de carregamento
   if(loading){
     return(
