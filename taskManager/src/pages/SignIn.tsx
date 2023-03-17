@@ -7,9 +7,11 @@ import {
   TouchableOpacity,
 } from "react-native";
 
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { AuthContext } from "../context/AuthContext";
 
 export default function SingIn() {
+  const {user} = useContext(AuthContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
