@@ -2,6 +2,7 @@
 
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Dashboard from "../pages/Dashboard";
+import TaskBoard from "../pages/TaskBoard";
 
 const Stack = createNativeStackNavigator();
 
@@ -9,9 +10,14 @@ function AppRoutes() {
   return (
     // Container que envolve a tela
     <Stack.Navigator>
-      <Stack.Screen
+      {/* <Stack.Screen
         name="Dashboard"
         component={Dashboard}
+        options={{ headerShown: false }}
+      /> */}
+           <Stack.Screen
+        name="TaskBoard"
+        component={TaskBoard}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>
