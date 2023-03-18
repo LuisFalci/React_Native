@@ -64,7 +64,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
       if (Object.keys(hasUser).length > 0) {
         api.defaults.headers.common[
           "Authorization"
-        ] = `Beater ${hasUser.token}`;
+        ] = `Bearer ${hasUser.token}`;
         setUser({
           id: hasUser.user.id,
           name: hasUser.user.name,
