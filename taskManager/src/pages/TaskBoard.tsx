@@ -8,12 +8,13 @@ import {
   StyleSheet,
   ScrollView,
 } from "react-native";
-import { AuthContext } from "../context/AuthContext";
 import { api } from "../services/api";
+import { Feather } from "@expo/vector-icons";
 
 export default function TaskBoard() {
   const [tasks, setTasks] = useState<TaskProps[]>([]);
   type TaskProps = {
+    _id: string;
     title: string;
     description: string;
   };
@@ -25,23 +26,35 @@ export default function TaskBoard() {
       setTasks(response.data.tasks);
     }
   }
-  getTasks()
+  getTasks();
+
+  async function deleteTask(index: string) {
+    // envie uma solicitação de exclusão para a API
+    await api.delete(`/task/deleteTask/${index}`);
+    getTasks();
+  }
 
   return (
     <SafeAreaView style={styles.container}>
     <Text style={styles.title}>Lista de Tarefas</Text>
     <ScrollView style={styles.scroll}>
-      {tasks.map((task, index) => (
-        <View key={index} style={styles.task}>
-          <Text>Titulo: {task?.title}</Text>
-          <Text>Descrição: {task?.description}</Text>
+      {tasks.map((task) => (
+        <View key={task?._id} style={styles.taskBox}>
+          <View style={styles.taskTextBox}>
+            <Text style={styles.taskText} >Titulo: {task?.title}</Text>
+            <Text style={styles.taskText}>Descrição: {task?.description}</Text>
+          </View>
+          <View style={styles.taskRemove}>
+            <TouchableOpacity onPress={() => deleteTask(task?._id)}>
+              <Feather name="trash-2" size={40} color="red" />
+            </TouchableOpacity>
+          </View>
         </View>
       ))}
     </ScrollView>
-    </SafeAreaView>
+  </SafeAreaView>
   );
 }
-
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -49,48 +62,33 @@ const styles = StyleSheet.create({
         alignItems: "center",
         paddingVertical: 15,
         backgroundColor: "#1d1d2e",
-      },
-      title: {
-        fontSize: 30,
-        fontWeight: "bold",
-        color: "#FFF",
-        marginBottom: 24,
-      },
-      input: {
-        width: "90%",
-        height: 60,
-        backgroundColor: "#101026",
-        borderRadius: 4,
-        paddingHorizontal: 8,
-        textAlign: "center",
-        fontSize: 22,
-        color: "#FFF",
-        marginBottom: 10,
-      },
-      button: {
-        width: "90%",
-        height: 40,
-        backgroundColor: "#3fffa3",
-        borderRadius: 4,
-        marginVertical: 12,
-        justifyContent: "center",
-        alignItems: "center",
-      },
-      buttonText: {
-        fontSize: 18,
-        color: "#101026",
-        fontWeight: "bold",
-      },
-  scroll:{
-
-  },
-  task:{
-    width: "95%",
-    height: 60,
-    backgroundColor: "#FFFFFF",
-    marginBottom: 12,
-    borderRadius: 4,
-    paddingHorizontal: 8,
-    color: "#FFFFF",
-  }
-});
+    },
+    title: {
+    fontSize: 30,
+    fontWeight: "bold",
+    color: "#FFF",
+    marginBottom: 24,
+    },
+    scroll: {
+      width: '100%',
+    },
+    taskBox: {
+      flex: 1,
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      padding: 10,
+      borderBottomWidth: 1,
+      borderBottomColor: '#ccc',
+    },
+    taskTextBox:{
+        flex: 1,
+        alignItems: 'flex-start',
+    },
+    taskText: {
+      color: "#FFF"
+    },
+    taskRemove: {
+      alignItems: 'flex-end',
+    },
+  });
